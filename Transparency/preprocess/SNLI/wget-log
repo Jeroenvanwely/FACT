@@ -1,0 +1,12 @@
+--2021-01-08 15:44:11--  https://nlp.stanford.edu/projects/snli/snli_1.0.zip
+Resolving nlp.stanford.edu (nlp.stanford.edu)... 171.64.67.140
+Connecting to nlp.stanford.edu (nlp.stanford.edu)|171.64.67.140|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 94550081 (90M) [application/zip]
+Saving to: ‘snli_1.0.zip.1’
+
+snli_1.0.zip.1       84%[===============>    ]  76.07M  2.97MB/s    eta 6s     snli_1.0.zip.1       85%[================>   ]  76.65M  2.96MB/s    eta 6s     snli_1.0.zip.1       85%[================>   ]  77.49M  3.07MB/s    eta 6s     snli_1.0.zip.1       86%[================>   ]  78.10M  3.10MB/s    eta 5s     snli_1.0.zip.1       87%[================>   ]  78.98M  3.15MB/s    eta 5s     snli_1.0.zip.1       88%[================>   ]  79.60M  3.14MB/s    eta 5s     snli_1.0.zip.1       89%[================>   ]  80.54M  3.21MB/s    eta 5s     snli_1.0.zip.1       90%[=================>  ]  81.20M  3.26MB/s    eta 5s     snli_1.0.zip.1       91%[=================>  ]  82.16M  3.38MB/s    eta 3s     snli_1.0.zip.1       91%[=================>  ]  82.84M  3.38MB/s    eta 3s     snli_1.0.zip.1       92%[=================>  ]  83.85M  3.48MB/s    eta 3s     snli_1.0.zip.1       93%[=================>  ]  84.54M  3.47MB/s    eta 3s     snli_1.0.zip.1       94%[=================>  ]  85.59M  3.66MB/s    eta 3s     snli_1.0.zip.1       95%[==================> ]  86.40M  3.71MB/s    eta 1s     snli_1.0.zip.1       96%[==================> ]  87.45M  3.83MB/s    eta 1s     snli_1.0.zip.1       98%[==================> ]  88.40M  3.90MB/s    eta 1s     snli_1.0.zip.1       99%[==================> ]  89.49M  4.01MB/s    eta 1s     snli_1.0.zip.1      100%[===================>]  90.17M  4.06MB/s    in 33s     
+
+utime(snli_1.0.zip.1): No such file or directory
+2021-01-08 15:44:45 (2.76 MB/s) - ‘snli_1.0.zip.1’ saved [94550081/94550081]
+

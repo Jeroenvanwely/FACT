@@ -1,0 +1,5 @@
+.vector_cache
+.ipynb_checkpoints
+MIMIC_Datasets
+*.csv
+*.p
