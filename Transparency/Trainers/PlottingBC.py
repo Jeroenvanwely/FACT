@@ -28,15 +28,15 @@ def process_int_grads(grads,X):
     return grads
 
 def plot_correlations(test_data, var1, var2, correlation_measure, correlation_measure_name, dirname='', name='New_Attn_Gradient_X', num_samples=None,xlim=(0,1)) :
+    
+    if num_samples is None:
+        num_samples = len(var1)
 
-    X, yhat= test_data.X, test_data.yt_hat
+    X, yhat= test_data.X[:num_samples], test_data.yt_hat[:num_samples]
 
     fig, ax = init_gridspec(3, 3, 1)
     pval_tables = {}
     spcorrs_all = []
-
-    if num_samples is None:
-        num_samples = len(X)
 
     for i in range(num_samples) :
         L = len(X[i])
@@ -243,7 +243,12 @@ def generate_graphs(dataset, exp_name, model, test_data):
         plot_correlations(test_data, grads['XxE[X]'], attn, measure, measure_name, dirname=model.dirname, name='Attn_Gradient_X')
         plot_correlations(test_data, int_grads, attn, measure, measure_name, dirname=model.dirname, name='Attn_Integrated_Gradient',num_samples=len(int_grads))
         if dataset.run_lime:
-            plot_correlations(test_data, lime_distr, attn, measure, measure_name, dirname=model.dirname, name='Attn_LIME',num_samples=len(lime_distr))            
+            N = len(lime_distr)
+            plot_correlations(test_data, lime_distr, attn, measure, measure_name, dirname=model.dirname, name='Attn_LIME_full_test',num_samples=N)
+            if dataset.run_lime_additional:
+                logging.info("Plotting additional lime graphs")
+                plot_correlations(test_data, lime_distr[:N//4], attn[:N//4], measure, measure_name, dirname=model.dirname, name='Attn_LIME_quarter',num_samples=N//4) 
+                plot_correlations(test_data, lime_distr[:N//2], attn[:N//2], measure, measure_name, dirname=model.dirname, name='Attn_LIME_half',num_samples=N//2)             
 
     logging.info("Generating Permutations Graph ...")
     perms = pload(model, 'permutations')
