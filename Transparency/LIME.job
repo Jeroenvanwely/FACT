@@ -25,9 +25,9 @@ export PYTHONPATH="${PYTHONPATH}:$HOME"
 source activate FACT2021
 
 # Run your code
-# srun python -u train_and_run_experiments_bc.py --dataset imdb --data_dir . --output_dir ./experiments --encoder vanilla_lstm --run_lime --skip_rationale --skip_training
-# srun python -u train_and_run_experiments_bc.py --dataset imdb --data_dir . --output_dir ./experiments --encoder ortho_lstm --run_lime --run_lime --skip_rationale --skip_training
-# srun python -u train_and_run_experiments_bc.py --dataset imdb --data_dir . --output_dir ./experiments --encoder diversity_lstm --diversity 0.5 --run_lime --skip_rationale --skip_training
+# srun python -u train_and_run_experiments_bc.py --dataset imdb --data_dir . --output_dir ./experiments --encoder vanilla_lstm --run_lime --skip_rationale --run_lime_additional --skip_training --skip_experiments
+# srun python -u train_and_run_experiments_bc.py --dataset imdb --data_dir . --output_dir ./experiments --encoder ortho_lstm --run_lime  --skip_rationale  --run_lime_additional --skip_training --skip_experiments
+srun python -u train_and_run_experiments_bc.py --dataset imdb --data_dir . --output_dir ./experiments --encoder diversity_lstm --diversity 0.5 --run_lime --skip_rationale --run_lime_additional --skip_training --skip_experiments
 
 # srun python -u train_and_run_experiments_qa.py --dataset babi_3 --data_dir . --output_dir ./experiments --encoder vanilla_lstm
 # srun python -u train_and_run_experiments_qa.py --dataset babi_3 --data_dir . --output_dir ./experiments --encoder ortho_lstm

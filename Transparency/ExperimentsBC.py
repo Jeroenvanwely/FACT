@@ -20,7 +20,8 @@ def train_dataset_on_encoders(dataset, encoders) :
     for e in encoders :
         if not dataset.skip_training:
             train_dataset(dataset, e)
-        run_experiments_on_latest_model(dataset, e)
+        if not dataset.skip_experiments:
+            run_experiments_on_latest_model(dataset, e)
         if not dataset.skip_rationale:
             run_rationale_on_latest_model(dataset, e)
         

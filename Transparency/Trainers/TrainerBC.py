@@ -3,11 +3,6 @@ from Transparency.common_code.metrics import *
 import Transparency.model.Binary_Classification as BC
 import numpy as np
 
-import lime
-from lime.lime_text import LimeTextExplainer
-from lime import submodular_pick
-
-
 metrics_type = {
     'Single_Label' : calc_metrics_classification,
     'Multi_Label' : calc_metrics_multilabel
@@ -205,42 +200,8 @@ class Evaluator() :
             pdump(self.model, grads, 'gradients')
     
     def lime_experiment(self, test_data, dataset, config, force_run=False):
-        if force_run or not is_pdumped(self.model, 'lime_analysis'):
+        if force_run or not is_pdumped(self.model, 'lime_distr'):
             print('Running Lime analysis ...')
-            self.model.dataset = dataset
-            if dataset.name == '20News_sports':
-                class_names = ['Baseball', 'Hockey']
-            else:
-                class_names = None
-            explainer = LimeTextExplainer(class_names=class_names, bow=False)
-
-            test_data_transformed = []
-            lime_distr = []
-            if not os.path.exists('./lime_experiments/{}/'.format(config)):
-                os.makedirs('./lime_experiments/{}/'.format(config))
-            print("Creating lime explanation objects for {} instances".format(len(test_data.X)))
-            for i, seq in enumerate(tqdm(test_data.X)):
-                # words = dataset .vec.map2words(seq)
-                words = seq[1:-1]
-                str_sent = ' '.join([str(word) for word in words])
-
-                exp = explainer.explain_instance(str_sent, self.model.predict_fn, num_features=len(words))
-                list_map = exp.as_map()
-                # sent = dataset.vec.map2words(words)
-
-                sorted_tuples = sorted(list_map[1])
-                sorted_weights = [abs(tpl[1]) for tpl in sorted_tuples]
-                normalized_weights = [float(weight)/sum(sorted_weights) for weight in sorted_weights]
-
-                normalized_weights.insert(0, 0)
-                normalized_weights.append(0)
-                lime_distr.append(normalized_weights)
-
-                # exp.save_to_file('./lime_experiments/{}/exp_{}_label_{}.html'.format(config, idx+1, class_names[test_data.y[idx]]))
-                # test_data_transformed.append(str_sent)
+            lime_distr = self.model.lime_analysis(test_data)
+            print('Dumping Lime outputs')
             pdump(self.model, lime_distr, 'lime_distr')
-
-            # sp_obj = submodular_pick.SubmodularPick(explainer, test_data_transformed, self.model.predict_fn, method='sample', sample_size=2, num_features=5, num_exps_desired=1)
-            # for i, exp in enumerate(sp_obj.sp_explanations):
-            #     print(exp.available_labels()[0])
-            #     exp.save_to_file('./lime/exp_{}_label_{}.html'.format(i+1, exp.available_labels()[0]))

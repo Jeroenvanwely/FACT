@@ -36,6 +36,9 @@ import nltk
 from multiprocessing import Pool
 import codecs
 
+import lime
+from lime.lime_text import LimeTextExplainer
+
 file_name = os.path.abspath(__file__)
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -799,8 +802,10 @@ class Model() :
         return dirname
 
     def load_values(self, dirname) :
-        self.encoder.load_state_dict(torch.load(dirname + '/enc.th', map_location={'cuda:1': 'cuda:0'}))
-        self.decoder.load_state_dict(torch.load(dirname + '/dec.th', map_location={'cuda:1': 'cuda:0'}))
+        # self.encoder.load_state_dict(torch.load(dirname + '/enc.th', map_location={'cuda:1': 'cuda:0'}))
+        # self.decoder.load_state_dict(torch.load(dirname + '/dec.th', map_location={'cuda:1': 'cuda:0'}))
+        self.encoder.load_state_dict(torch.load(dirname + '/enc.th', map_location='cpu'))
+        self.decoder.load_state_dict(torch.load(dirname + '/dec.th', map_location='cpu'))
 
     def save_values_generator(self, use_dirname=None, save_model=True) :
 
@@ -819,27 +824,35 @@ class Model() :
     def load_values_generator(self, dirname) :
         self.generator.load_state_dict(torch.load(dirname + '/gen.th', map_location={'cuda:1': 'cuda:0'}))
 
+    def lime_analysis(self, test_data):
+        explainer = LimeTextExplainer(class_names=None, bow=False)
+        lime_distr = []
+        print("Creating lime explanation objects for {} instances".format(len(test_data.X)))
+        for i, seq in enumerate(tqdm(test_data.X)):
+            words = seq[1:-1]
+            str_sent = ' '.join([str(word) for word in words])
+            exp = explainer.explain_instance(str_sent, self.predict_fn, num_features=len(words))
+            list_map = exp.as_map()
+
+            sorted_tuples = sorted(list_map[1])
+            sorted_weights = [abs(tpl[1]) for tpl in sorted_tuples]
+            normalized_weights = [float(weight)/sum(sorted_weights) for weight in sorted_weights]
+
+            normalized_weights.insert(0, 0)
+            normalized_weights.append(0)
+            lime_distr.append(normalized_weights)
+        return lime_distr
+
     def predict_fn(self, data):
-        # list_seq = data[0].split()
-        # length = len(list_seq) + 2
         data_list = []
         for i, str_sent in enumerate(data):
             list_ints = str_sent.split()
             list_ints = [1 if elem == 'UNKWORDZ' else int(elem) for elem in list_ints]
-            # print(list_ints)
-            # print(self.dataset.vec.map2words(list_ints))
-            # list_ints = list_seq
-            # list_ints = self.dataset.vec.map2idxs(list_seq)
             
             list_ints.insert(0, 2)
             list_ints.append(3)
-            # list_ints = list(np.pad(list_ints, (0, length - len(list_ints)%length), 'constant'))
-            # if len(list_ints) == 2:
-                # list_ints.extend([0, 0, 0])
-            # print(list_ints)
             data_list.append(list_ints)
             
-        # print(data_list)
         predictions_class_1, _, _, = self.evaluate(data_list)
         predictions_class_0 = np.ones_like(predictions_class_1) - predictions_class_1
         predictions_binary = np.hstack((predictions_class_0, predictions_class_1))

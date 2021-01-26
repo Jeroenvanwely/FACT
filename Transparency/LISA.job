@@ -25,10 +25,10 @@ export PYTHONPATH="${PYTHONPATH}:$HOME"
 source activate FACT2021
 
 # Run your code
-srun python -u train_and_run_experiments_bc.py --dataset yelp --data_dir . --output_dir ./experiments --encoder vanilla_lstm --skip_rationale
+# srun python -u train_and_run_experiments_bc.py --dataset yelp --data_dir . --output_dir ./experiments --encoder vanilla_lstm --skip_rationale
 # srun python -u train_and_run_experiments_bc.py --dataset yelp --data_dir . --output_dir ./experiments --encoder ortho_lstm --skip_rationale
 # srun python -u train_and_run_experiments_bc.py --dataset yelp --data_dir . --output_dir ./experiments --encoder diversity_lstm --diversity 0.5 --skip_rationale
 
 # srun python -u train_and_run_experiments_qa.py --dataset babi_3 --data_dir . --output_dir ./experiments --encoder vanilla_lstm
 # srun python -u train_and_run_experiments_qa.py --dataset babi_3 --data_dir . --output_dir ./experiments --encoder ortho_lstm
-# srun python -u train_and_run_experiments_qa.py --dataset babi_3 --data_dir . --output_dir ./experiments --encoder diversity_lstm --diversity 0.5
+srun python -u train_and_run_experiments_qa.py --dataset babi_3 --data_dir . --output_dir ./experiments --encoder diversity_lstm --diversity 0.5

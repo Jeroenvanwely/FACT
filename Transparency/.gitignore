@@ -1,6 +1,7 @@
 unused_files
 experiments
 lime_experiments
+graph_outputs
 *.pyc
 *.p
 *.csv
