@@ -5,7 +5,7 @@
 #SBATCH --job-name=Transparency
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=3
-#SBATCH --time=28:00:00
+#SBATCH --time=24:00:00
 #SBATCH --mem=32000M
 #SBATCH --output=./experiments/SLURM_LIME_%A.out
 
@@ -25,10 +25,10 @@ export PYTHONPATH="${PYTHONPATH}:$HOME"
 source activate FACT2021
 
 # Run your code
-# srun python -u train_and_run_experiments_bc.py --dataset imdb --data_dir . --output_dir ./experiments --encoder vanilla_lstm --run_lime --skip_rationale --run_lime_additional --skip_training --skip_experiments
-# srun python -u train_and_run_experiments_bc.py --dataset imdb --data_dir . --output_dir ./experiments --encoder ortho_lstm --run_lime  --skip_rationale  --run_lime_additional --skip_training --skip_experiments
-srun python -u train_and_run_experiments_bc.py --dataset imdb --data_dir . --output_dir ./experiments --encoder diversity_lstm --diversity 0.5 --run_lime --skip_rationale --run_lime_additional --skip_training --skip_experiments
+# srun python -u train_and_run_experiments_bc.py --dataset yelp --data_dir . --output_dir ./experiments --encoder vanilla_lstm --run_lime --skip_rationale --run_lime_additional 
+# srun python -u train_and_run_experiments_bc.py --dataset yelp --data_dir . --output_dir ./experiments --encoder ortho_lstm --run_lime  --skip_rationale  --run_lime_additional --skip_experiments 
+srun python -u train_and_run_experiments_bc.py --dataset yelp --data_dir . --output_dir ./experiments --encoder diversity_lstm --diversity 0.5 --run_lime --skip_rationale --run_lime_additional --skip_experiments 
 
 # srun python -u train_and_run_experiments_qa.py --dataset babi_3 --data_dir . --output_dir ./experiments --encoder vanilla_lstm
-# srun python -u train_and_run_experiments_qa.py --dataset babi_3 --data_dir . --output_dir ./experiments --encoder ortho_lstm
+# srun python -u train_and_run_experiments_qa.py --dataset babi_1 --data_dir . --output_dir ./experiments --encoder ortho_lstm
 # srun python -u train_and_run_experiments_qa.py --dataset babi_3 --data_dir . --output_dir ./experiments --encoder diversity_lstm --diversity 0.5
