@@ -202,6 +202,6 @@ class Evaluator() :
     def lime_experiment(self, test_data, dataset, config, force_run=False):
         if force_run or not is_pdumped(self.model, 'lime_distr'):
             print('Running Lime analysis ...')
-            lime_distr = self.model.lime_analysis(test_data)
+            lime_distr = self.model.lime_analysis(test_data, dataset)
             print('Dumping Lime outputs')
             pdump(self.model, lime_distr, 'lime_distr')

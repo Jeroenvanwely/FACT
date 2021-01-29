@@ -40,8 +40,10 @@ def generate_graphs_on_latest_model(dataset, config):
 
 def train_dataset_on_encoders(dataset, encoders):
     for e in encoders:
-        train_dataset(dataset, e) 
-        run_experiments_on_latest_model(dataset, e)
+        if not dataset.skip_training:
+            train_dataset(dataset, e)
+        if not dataset.skip_experiments:
+            run_experiments_on_latest_model(dataset, e)
 
 def generate_graphs_on_encoders(dataset, encoders):
     for e in encoders:

@@ -236,7 +236,11 @@ def generate_graphs(dataset, exp_name, model, test_data):
 
     if dataset.run_lime:
         lime_distr = pload(model, 'lime_distr')
-    
+        if dataset.name == 'Yelp' or dataset.name == 'imdb':
+            attn_lime = attn[:1000]
+        else:
+            attn_lime = attn
+
     measure_dict = {'pearsonr':lambda x,y:pearsonr(x,y)[0],'jsd': lambda x,y:jsd(x,y), 'total deviation': lambda x,y: np.mean(np.abs(np.array(x) - np.array(y)))}
     
     for measure_name, measure in measure_dict.items():
@@ -244,11 +248,11 @@ def generate_graphs(dataset, exp_name, model, test_data):
         plot_correlations(test_data, int_grads, attn, measure, measure_name, dirname=model.dirname, name='Attn_Integrated_Gradient',num_samples=len(int_grads))
         if dataset.run_lime:
             N = len(lime_distr)
-            plot_correlations(test_data, lime_distr, attn, measure, measure_name, dirname=model.dirname, name='Attn_LIME_full_test',num_samples=N)
+            plot_correlations(test_data, lime_distr, attn_lime, measure, measure_name, dirname=model.dirname, name='Attn_LIME_full_test',num_samples=N)
             if dataset.run_lime_additional:
                 logging.info("Plotting additional lime graphs")
-                plot_correlations(test_data, lime_distr[:N//4], attn[:N//4], measure, measure_name, dirname=model.dirname, name='Attn_LIME_quarter',num_samples=N//4) 
-                plot_correlations(test_data, lime_distr[:N//2], attn[:N//2], measure, measure_name, dirname=model.dirname, name='Attn_LIME_half',num_samples=N//2)             
+                plot_correlations(test_data, lime_distr[:N//4], attn_lime[:N//4], measure, measure_name, dirname=model.dirname, name='Attn_LIME_quarter',num_samples=N//4) 
+                plot_correlations(test_data, lime_distr[:N//2], attn_lime[:N//2], measure, measure_name, dirname=model.dirname, name='Attn_LIME_half',num_samples=N//2)             
 
     logging.info("Generating Permutations Graph ...")
     perms = pload(model, 'permutations')
@@ -258,6 +262,7 @@ def generate_graphs(dataset, exp_name, model, test_data):
     importance_ranking = pload(model, 'importance_ranking')
     plot_importance_ranking(test_data, importance_ranking, dirname=model.dirname)
 
+    logging.info("Generating rationale Graph ...")
     rationale_attn_dict = pload(model, 'rationale_attn')
     plot_rationale(test_data,rationale_attn_dict,dirname=model.dirname)
     

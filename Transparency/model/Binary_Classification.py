@@ -802,10 +802,12 @@ class Model() :
         return dirname
 
     def load_values(self, dirname) :
-        # self.encoder.load_state_dict(torch.load(dirname + '/enc.th', map_location={'cuda:1': 'cuda:0'}))
-        # self.decoder.load_state_dict(torch.load(dirname + '/dec.th', map_location={'cuda:1': 'cuda:0'}))
-        self.encoder.load_state_dict(torch.load(dirname + '/enc.th', map_location='cpu'))
-        self.decoder.load_state_dict(torch.load(dirname + '/dec.th', map_location='cpu'))
+        if torch.cuda.is_available():
+            self.encoder.load_state_dict(torch.load(dirname + '/enc.th', map_location={'cuda:1': 'cuda:0'}))
+            self.decoder.load_state_dict(torch.load(dirname + '/dec.th', map_location={'cuda:1': 'cuda:0'}))
+        else:
+            self.encoder.load_state_dict(torch.load(dirname + '/enc.th', map_location='cpu'))
+            self.decoder.load_state_dict(torch.load(dirname + '/dec.th', map_location='cpu'))
 
     def save_values_generator(self, use_dirname=None, save_model=True) :
 
@@ -824,11 +826,16 @@ class Model() :
     def load_values_generator(self, dirname) :
         self.generator.load_state_dict(torch.load(dirname + '/gen.th', map_location={'cuda:1': 'cuda:0'}))
 
-    def lime_analysis(self, test_data):
+    def lime_analysis(self, test_data, dataset):
         explainer = LimeTextExplainer(class_names=None, bow=False)
         lime_distr = []
-        print("Creating lime explanation objects for {} instances".format(len(test_data.X)))
-        for i, seq in enumerate(tqdm(test_data.X)):
+        # If Yelp or imdb dataset only run analysis for first 1000 sentences.
+        if dataset.name == 'Yelp' or dataset.name == 'imdb':
+            test_seqs = test_data.X[:1000]
+        else:
+            test_seqs = test_data.X
+        print("Creating lime explanation objects for {} instances".format(len(test_seqs)))
+        for i, seq in enumerate(tqdm(test_seqs)):
             words = seq[1:-1]
             str_sent = ' '.join([str(word) for word in words])
             exp = explainer.explain_instance(str_sent, self.predict_fn, num_features=len(words))
