@@ -1,41 +1,22 @@
-# Towards Transparent and Explainable Attention Models
+# Reproduction study: Towards Transparent and Explainable Attention Models
 
-Code for [Towards Transparent and Explainable Attention Models](https://www.aclweb.org/anthology/2020.acl-main.387/) paper (ACL 2020)
+Code of the reproduction study for [Towards Transparent and Explainable Attention Models](https://www.aclweb.org/anthology/2020.acl-main.387/) paper (ACL 2020)
 
-When using this code, please cite:
 
-```
-@inproceedings{mohankumar-etal-2020-towards,
-    title = "Towards Transparent and Explainable Attention Models",
-    author = "Mohankumar, Akash Kumar  and
-      Nema, Preksha  and
-      Narasimhan, Sharan  and
-      Khapra, Mitesh M.  and
-      Srinivasan, Balaji Vasan  and
-      Ravindran, Balaraman",
-    booktitle = "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics",
-    month = jul,
-    year = "2020",
-    address = "Online",
-    publisher = "Association for Computational Linguistics",
-    url = "https://www.aclweb.org/anthology/2020.acl-main.387",
-    pages = "4206--4216"
-}
-```
-
-This codebase has been built based on this [repo](https://github.com/successar/AttentionExplanation) 
+This codebase is based on the repo of the authors of the original paper, which can be found [here](https://github.com/akashkm99/Interpretable-Attention) 
 
 ## Installation 
 
-Clone this repository into a folder named Transparency (This step is necessary)
+Clone this repository:
 
-```git clone https://github.com/akashkm99/Interpretable-Attention.git Transparency```
+```git clone git@github.com:Jeroenvanwely/FACT.git```
 
 Add your present working directory, in which the Transparency folder is present, to your python path 
 
 ```export PYTHONPATH=$PYTHONPATH:$(pwd)```
 
 To avoid having to change your python path variable each time, use: ``` echo 'PYTHONPATH=$PYTHONPATH:'$(pwd) >> ~/.bashrc```
+Or manually add the line line above to your .bashrc file.
 
 ### Requirements 
 
@@ -55,18 +36,30 @@ spacy==2.1.3
 matplotlib==3.0.3
 ipython==7.4.0
 scikit_learn==0.20.3
+lime==0.2.0.1
 ```
 
-Install the required packages and download the spacy en model:
+Installing the required packages can either be done using an Anaconda environment or using pip/pipenv
+
+#### 1) Anaconda
+
+Create the Anaconda environment named FACT2021 by running ```conda env create -f FACT_environment.yml ``` 
+
+#### 2) Pip
+
+Install the required packages from the requirements.txt file using pip by running
 ```
 cd Transparency 
 pip install -r requirements.txt
-python -m spacy download en
 ```
+
+#### Install the English spaCy model
+
+``` python -m spacy download en ```
 
 ## Preparing the Datasets 
 
-Each dataset has a separate ipython notebook in the `./preprocess` folder. Follow the instructions in the ipython notebooks to download and preprocess the datasets.
+Each dataset has a separate ipython notebook in the `./preprocess` folder. Follow the instructions in the ipython notebooks to download and preprocess the datasets. The datasets that were not used in the reproduction study but were used in the original paper (because they were not available for download) have been removed from this folder. 
 
 ## Training & Running Experiments
 
