@@ -1,6 +1,6 @@
 # Reproduction study: Towards Transparent and Explainable Attention Models
 
-Code of the reproduction study for [Towards Transparent and Explainable Attention Models](https://www.aclweb.org/anthology/2020.acl-main.387/) paper (ACL 2020)
+Code of the reproduction study of [Towards Transparent and Explainable Attention Models](https://www.aclweb.org/anthology/2020.acl-main.387/) paper (ACL 2020)
 
 
 This codebase is based on the repository of the authors of the original paper, which can be found [here](https://github.com/akashkm99/Interpretable-Attention).
@@ -13,7 +13,7 @@ Clone this repository:
 
 ```git clone git@github.com:Jeroenvanwely/FACT.git```
 
-Add your present working directory, in which the Transparency folder is present, to your python path 
+Add your present working directory, in which the Transparency folder is present, to your python path: 
 
 ```export PYTHONPATH=$PYTHONPATH:$(pwd)```
 
@@ -44,8 +44,8 @@ Installing the required packages can either be done using an Anaconda environmen
 
 #### 1) Anaconda
 
-Create the Anaconda environment named FACT2021 by running ```conda env create -f FACT_environment.yml ```
-Subsequently, use ```conda activate FACT2021 ``` to activate the environment with the prerequisites for running the code.
+Create the Anaconda environment named FACT2021 by running: ```conda env create -f FACT_environment.yml ```
+Subsequently, use: ```conda activate FACT2021 ``` to activate the environment with the installed prerequisites for running the code.
 
 #### 2) Pip
 
@@ -87,7 +87,7 @@ output_path=./experiments
 python train_and_run_experiments_bc.py --dataset ${dataset_name} --data_dir . --output_dir ${output_path} --encoder ${model_name} --run_lime
 ```
 
-Similarly, for the Diversity LSTM, use
+Similarly, for the Diversity LSTM, use:
 
 ```
 dataset_name=imdb
