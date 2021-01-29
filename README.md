@@ -19,11 +19,7 @@ Clone this repository:
 
 ```git clone git@github.com:Jeroenvanwely/FACT.git```
 
-Move into the cloned FACT folder by running ```cd FACT``` and add your present working directory, in which the Transparency folder is present, to your python path: 
-
-```export PYTHONPATH=$PYTHONPATH:$(pwd)```
-
-To avoid having to change your python path variable each time, use: ``` echo 'PYTHONPATH=$PYTHONPATH:'$(pwd) >> ~/.bashrc``` or manually add the line line above to your .bashrc file.
+Move into the cloned FACT folder by running ```cd FACT```.
 
 ### Requirements 
 
@@ -46,20 +42,18 @@ scikit_learn==0.20.3
 lime==0.2.0.1
 ```
 
-Installing the required packages can either be done using an Anaconda environment or using pip/pipenv.
+Installing the required packages can done by creating an Anaconda environment
 
-#### 1) Anaconda
+#### Anaconda
 
 Create the Anaconda environment named FACT2021 by running: ```conda env create -f FACT_environment.yml ```
 Subsequently, use: ```conda activate FACT2021 ``` to activate the environment with the installed prerequisites for running the code.
 
-#### 2) Pip
+Now add your present working directory, in which the Transparency folder is present, to your python path: 
 
-Install the required packages from the requirements.txt file using pip by running
-```
-cd Transparency 
-pip install -r requirements.txt
-```
+```export PYTHONPATH=$PYTHONPATH:$(pwd)```
+
+To avoid having to change your python path variable each time, use: ``` echo 'PYTHONPATH=$PYTHONPATH:'$(pwd) >> ~/.bashrc``` or manually add the line line above to your .bashrc file.
 
 #### Install the English spaCy model
 
@@ -68,6 +62,14 @@ pip install -r requirements.txt
 ## Preparing the Datasets 
 
 Each dataset has a separate ipython notebook in the `./preprocess` folder. Follow the instructions in the ipython notebooks to download and preprocess the datasets. The datasets that were used in the original paper but were not used in the reproduction study (because they were not available for download) have been removed from this folder. 
+
+Note that you have to run the notebooks using the python kernel within the FACT2021 conda environment (you might need to run install ```pip install ipykernel``` to do this). Moreover, if you still have import problems when running the notebooks (telling you the module 'Transparency' cannot be found), you can circumvent this issue by manually adding these two lines at the top of your notebook:
+
+```import sys```
+
+```sys.path.append('/PATH_TO/FACT')```
+
+Where you replace '/PATH_TO/FACT' with the path of your local machine to the FACT folder.
 
 ## Training & Running Experiments
 
