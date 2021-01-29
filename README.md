@@ -19,7 +19,7 @@ Clone this repository:
 
 ```git clone git@github.com:Jeroenvanwely/FACT.git```
 
-Add your present working directory, in which the Transparency folder is present, to your python path: 
+Move into the cloned FACT folder by running ```cd FACT``` and add your present working directory, in which the Transparency folder is present, to your python path: 
 
 ```export PYTHONPATH=$PYTHONPATH:$(pwd)```
 
