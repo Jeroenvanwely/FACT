@@ -262,8 +262,9 @@ def generate_graphs(dataset, exp_name, model, test_data):
     importance_ranking = pload(model, 'importance_ranking')
     plot_importance_ranking(test_data, importance_ranking, dirname=model.dirname)
 
-    logging.info("Generating rationale Graph ...")
-    rationale_attn_dict = pload(model, 'rationale_attn')
-    plot_rationale(test_data,rationale_attn_dict,dirname=model.dirname)
+    if not dataset.skip_rationale:    
+        logging.info("Generating rationale Graph ...")
+        rationale_attn_dict = pload(model, 'rationale_attn')
+        plot_rationale(test_data,rationale_attn_dict,dirname=model.dirname)
     
     print("="*300)
