@@ -17,8 +17,7 @@ Add your present working directory, in which the Transparency folder is present,
 
 ```export PYTHONPATH=$PYTHONPATH:$(pwd)```
 
-To avoid having to change your python path variable each time, use: ``` echo 'PYTHONPATH=$PYTHONPATH:'$(pwd) >> ~/.bashrc```
-Or manually add the line line above to your .bashrc file.
+To avoid having to change your python path variable each time, use: ``` echo 'PYTHONPATH=$PYTHONPATH:'$(pwd) >> ~/.bashrc``` or manually add the line line above to your .bashrc file.
 
 ### Requirements 
 
@@ -41,7 +40,7 @@ scikit_learn==0.20.3
 lime==0.2.0.1
 ```
 
-Installing the required packages can either be done using an Anaconda environment or using pip/pipenv
+Installing the required packages can either be done using an Anaconda environment or using pip/pipenv.
 
 #### 1) Anaconda
 
@@ -62,11 +61,11 @@ pip install -r requirements.txt
 
 ## Preparing the Datasets 
 
-Each dataset has a separate ipython notebook in the `./preprocess` folder. Follow the instructions in the ipython notebooks to download and preprocess the datasets. The datasets that were not used in the reproduction study but were used in the original paper (because they were not available for download) have been removed from this folder. 
+Each dataset has a separate ipython notebook in the `./preprocess` folder. Follow the instructions in the ipython notebooks to download and preprocess the datasets. The datasets that were used in the original paper but were not used in the reproduction study (because they were not available for download) have been removed from this folder. 
 
 ## Training & Running Experiments
 
-The below mentioned commands trains a given model on a dataset and performs all the experiments mentioned in the original paper. 
+The below mentioned commands trains a given model on a dataset and performs all the experiments mentioned in the original paper and, if wanted, the additional LIME experiment. 
 
 ### Text Classification datasets
 
@@ -135,7 +134,7 @@ Text classification framework:
 Tasks with two input sequences:
 - train_and_run_experiments_qa.py: added parse arguments and set_seed function
 - ExperimentsQA.py: included skip arguments
-- DatasetBC.py added correct hidden size attribute to datasets
+- DatasetBC.py: added correct hidden size attribute to datasets
 
 
 
