@@ -2,6 +2,12 @@
 
 Code of the reproduction study of [Towards Transparent and Explainable Attention Models](https://www.aclweb.org/anthology/2020.acl-main.387/) paper (ACL 2020)
 
+The reproduction study and this repository was part of the Fairness, Accountability, Confidentiality and Transparency in AI (FACT-AI) course teached at the Master's programme Artificial Intelligence at the Universiteit of Amsterdam (UvA) in 2021.
+Collaborators of this study:
+- Jeroen van Wely
+- Niek IJzerman
+- Caitlyn Bruys
+- Jochem Soons
 
 This codebase is based on the repository of the authors of the original paper, which can be found [here](https://github.com/akashkm99/Interpretable-Attention).
 
