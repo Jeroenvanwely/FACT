@@ -826,40 +826,60 @@ class Model() :
     def load_values_generator(self, dirname) :
         self.generator.load_state_dict(torch.load(dirname + '/gen.th', map_location={'cuda:1': 'cuda:0'}))
 
+    """
+    Main function for running the LIME experiments. 
+    Given test_data, returns LIME distribution over test instances.
+    """
     def lime_analysis(self, test_data, dataset):
+        # Initialize TextExplainer object.
         explainer = LimeTextExplainer(class_names=None, bow=False)
         lime_distr = []
+
         # If Yelp or imdb dataset only run analysis for first 1000 sentences.
         if dataset.name == 'Yelp' or dataset.name == 'imdb':
             test_seqs = test_data.X[:1000]
         else:
             test_seqs = test_data.X
         print("Creating lime explanation objects for {} instances".format(len(test_seqs)))
+
         for i, seq in enumerate(tqdm(test_seqs)):
+            # Skip <SOS> and <EOS> tokens.
             words = seq[1:-1]
+            # Convert sentence to raw string of text (LIME expects this as input).
             str_sent = ' '.join([str(word) for word in words])
+
+            # Create explainer object and export as map.
             exp = explainer.explain_instance(str_sent, self.predict_fn, num_features=len(words))
             list_map = exp.as_map()
 
+            # Sort explanation weights back to original order of sentence.
             sorted_tuples = sorted(list_map[1])
+            # Normalize weights.
             sorted_weights = [abs(tpl[1]) for tpl in sorted_tuples]
             normalized_weights = [float(weight)/sum(sorted_weights) for weight in sorted_weights]
-
+            # Add weights for <SOS> and <EOS> tokens and append to list.
             normalized_weights.insert(0, 0)
             normalized_weights.append(0)
             lime_distr.append(normalized_weights)
         return lime_distr
 
+    """
+    Helper prediction function for lime analysis.
+    Takes a list of raw strings of sentences and returns matrix of binary predictions.
+    It does this by firstly transforming the raw strings back to lists of integers. 
+    """
     def predict_fn(self, data):
         data_list = []
         for i, str_sent in enumerate(data):
+            # Split raw string into list of words.
             list_ints = str_sent.split()
+            # Convert unknown words of LIME perturbances to unknown tokens and the rest to ints.
             list_ints = [1 if elem == 'UNKWORDZ' else int(elem) for elem in list_ints]
-            
+            # Insert <SOS> and <EOS> tokens
             list_ints.insert(0, 2)
             list_ints.append(3)
             data_list.append(list_ints)
-            
+        # Compute predictions for both classes and return binary prediction scores.
         predictions_class_1, _, _, = self.evaluate(data_list)
         predictions_class_0 = np.ones_like(predictions_class_1) - predictions_class_1
         predictions_binary = np.hstack((predictions_class_0, predictions_class_1))
