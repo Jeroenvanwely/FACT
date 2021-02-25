@@ -53,7 +53,7 @@ Now add your present working directory, in which the Transparency folder is pres
 
 ```export PYTHONPATH=$PYTHONPATH:$(pwd)```
 
-To avoid having to change your python path variable each time, use: ``` echo 'PYTHONPATH=$PYTHONPATH:'$(pwd) >> ~/.bashrc``` or manually add the line line above to your .bashrc file.
+To avoid having to change your python path variable each time, use: ``` echo 'PYTHONPATH=$PYTHONPATH:'$(pwd) >> ~/.bashrc``` or manually add the line above to your .bashrc file.
 
 #### Install the English spaCy model
 
@@ -63,7 +63,7 @@ To avoid having to change your python path variable each time, use: ``` echo 'PY
 
 Each dataset has a separate ipython notebook in the `./preprocess` folder. Follow the instructions in the ipython notebooks to download and preprocess the datasets. The datasets that were used in the original paper but were not used in the reproduction study (because they were not available for download) have been removed from this folder. 
 
-Note that you have to run the notebooks using the python kernel within the FACT2021 conda environment (you might need to run install ```pip install ipykernel``` to do this). Moreover, if you still have import problems when running the notebooks (telling you the module 'Transparency' cannot be found), you can circumvent this issue by manually adding these two lines at the top of your notebook:
+Note that you have to run the notebooks using the python kernel within the FACT2021 conda environment (you might need to run ```pip install ipykernel``` to do this). Moreover, if you still have import problems when running the notebooks (telling you the module 'Transparency' cannot be found), you can circumvent this issue by manually adding these two lines at the top of your notebook:
 
 ```import sys```
 
